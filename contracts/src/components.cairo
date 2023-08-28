@@ -1,5 +1,6 @@
 use starknet::ContractAddress;
 use option::{Option, OptionTrait};
+use traits::{TryInto, Into};
 
 #[cfg(test)]
 use debug::PrintTrait;
@@ -21,9 +22,34 @@ struct Card {
     /// Energy cost of the card.
     cost: u8,
     /// Assigned role
-    role: Roles,
+    role: u8,
     /// Card is currently captain of the team
     is_captain: bool,
+}
+
+// temp solution until torii supports enums
+#[generate_trait]
+impl ImplCard of ICardTrait {
+    fn u8_to_role(value: u8) -> Roles {
+        if (value == RolesU8::Goalkeeper) {
+            Roles::Goalkeeper(())
+        } else if (value == RolesU8::Defender) {
+            Roles::Defender(())
+        } else if (value == RolesU8::Midfielder) {
+            Roles::Midfielder(())
+        } else {
+            Roles::Attacker(())
+        }
+    }
+}
+
+
+// temp solution until torii supports enums
+mod RolesU8 {
+    const Goalkeeper: u8 = 0;
+    const Defender: u8 = 1;
+    const Midfielder: u8 = 2;
+    const Attacker: u8 = 3;
 }
 
 /// Available roles for cards

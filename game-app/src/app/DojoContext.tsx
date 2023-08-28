@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import type { ReactNode } from 'react';
 import type { SetupResult } from "./dojo/setup";
-import { Account, RpcProvider, constants } from "starknet";
+import { Account, RpcProvider } from "starknet";
 import { useBurner } from "@dojoengine/create-burner";
 
 const DojoContext = createContext<SetupResult | null>(null);
@@ -31,7 +31,7 @@ export const useDojo = () => {
     const { create, list, get, account, select } = useBurner(
         {
             masterAccount: masterAccount,
-            accountClassHash: "import.meta.env.VITE_PUBLIC_ACCOUNT_CLASS_HASH!",
+            accountClassHash: process.env.NEXT_PUBLIC_ACCOUNT_CLASS_HASH!,
             provider: provider
         }
     );

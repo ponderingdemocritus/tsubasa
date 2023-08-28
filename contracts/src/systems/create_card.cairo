@@ -2,7 +2,7 @@
 mod create_card_system {
     use traits::Into;
     use dojo::world::Context;
-    use tsubasa::components::{Game, Roles, Card};
+    use tsubasa::components::{Game, Card};
 
     /// Creates a card.
     ///
@@ -21,12 +21,13 @@ mod create_card_system {
         dribble: u8,
         defense: u8,
         cost: u8,
-        role: Roles,
+        role: u8,
         is_captain: bool
     ) {
+        // temp
+        assert(role <= 3, 'Invalid role');
         set!(
-            ctx.world,
-            Card {
+            ctx.world, Card {
                 token_id: token_id.into(),
                 dribble: dribble,
                 current_dribble: dribble,

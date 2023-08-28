@@ -8,7 +8,7 @@ mod place_card_system {
 
     use dojo::world::Context;
 
-    use tsubasa::components::{Card, Game, Roles, Placement, Player};
+    use tsubasa::components::{Card, ImplCard, Game, Placement, Roles, RolesU8, Player};
     use tsubasa::events::CardPlaced;
     use tsubasa::systems::check_turn;
 
@@ -21,7 +21,7 @@ mod place_card_system {
     /// * `game_id` - The current game_id.
     /// * `card_id` - The token id of the card that has to be placed.
     /// * `position` - The position at which the card will be placed
-    fn execute(ctx: Context, game_id: felt252, card_id: u256, position: Roles) {
+    fn execute(ctx: Context, game_id: felt252, card_id: u256, position: u8) {
         let game = get!(ctx.world, game_id, Game);
         check_turn(@game, @ctx.origin);
         let game_player_key: (felt252, felt252) = (game_id, ctx.origin.into());
@@ -29,26 +29,31 @@ mod place_card_system {
         let mut card = get!(ctx.world, (card_id), Card);
         assert(player.remaining_energy >= card.cost.into(), 'Not enough energy');
 
-        let is_on_its_role = match position {
+        // temp
+        assert(position <= 3, 'Invalid role');
+
+        let role_enum = ImplCard::u8_to_role(position);
+
+        let is_on_its_role = match role_enum {
             Roles::Goalkeeper => {
                 assert(player.goalkeeper.is_none(), 'Goalkeeper already placed');
                 player.goalkeeper = Option::Some(Placement::Side(card_id));
-                card.role == Roles::Goalkeeper
+                card.role == RolesU8::Goalkeeper
             },
             Roles::Defender => {
                 assert(player.defender.is_none(), 'Defender already placed');
                 player.defender = Option::Some(Placement::Side(card_id));
-                card.role == Roles::Defender
+                card.role == RolesU8::Defender
             },
             Roles::Midfielder => {
                 assert(player.midfielder.is_none(), 'Midfielder already placed');
                 player.midfielder = Option::Some(Placement::Side(card_id));
-                card.role == Roles::Midfielder
+                card.role == RolesU8::Midfielder
             },
             Roles::Attacker => {
                 assert(player.attacker.is_none(), 'Attacker already placed');
                 player.attacker = Option::Some(Placement::Side(card_id));
-                card.role == Roles::Attacker
+                card.role == RolesU8::Attacker
             }
         };
 

@@ -7,7 +7,7 @@ use dojo::world::IWorldDispatcherTrait;
 
 use tsubasa::systems::place_card_system;
 use tsubasa::tests::utils::{create_game, get_players, spawn_world};
-use tsubasa::components::{Card, Roles, Player, Placement};
+use tsubasa::components::{Card, Roles, RolesU8, Player, Placement};
 
 #[test]
 #[available_gas(30000000)]
@@ -22,7 +22,7 @@ fn test_place_card() {
         defense: 2,
         current_defense: 2,
         cost: 1,
-        role: Roles::Goalkeeper,
+        role: RolesU8::Goalkeeper,
         is_captain: false
     };
     set_contract_address(executor);
@@ -62,7 +62,7 @@ fn test_place_card_overflow() {
         defense: 2,
         current_defense: 2,
         cost: 2,
-        role: Roles::Goalkeeper,
+        role: RolesU8::Goalkeeper,
         is_captain: false
     };
     set_contract_address(executor);
@@ -89,7 +89,7 @@ fn test_place_card_on_its_role() {
         defense: 2,
         current_defense: 2,
         cost: 1,
-        role: Roles::Attacker,
+        role: RolesU8::Attacker,
         is_captain: false
     };
     set_contract_address(executor);
@@ -121,7 +121,7 @@ fn test_place_card_not_on_its_role() {
         defense: 2,
         current_defense: 2,
         cost: 1,
-        role: Roles::Attacker,
+        role: RolesU8::Attacker,
         is_captain: false
     };
     set_contract_address(executor);
@@ -153,7 +153,7 @@ fn test_place_card_is_not_captain() {
         defense: 2,
         current_defense: 2,
         cost: 1,
-        role: Roles::Attacker,
+        role: RolesU8::Attacker,
         is_captain: false
     };
     set_contract_address(executor);
@@ -185,7 +185,7 @@ fn test_place_card_is_captain() {
         defense: 2,
         current_defense: 2,
         cost: 1,
-        role: Roles::Attacker,
+        role: RolesU8::Attacker,
         is_captain: true
     };
     set_contract_address(executor);
@@ -217,7 +217,7 @@ fn test_place_card_wrong_player() {
         defense: 2,
         current_defense: 2,
         cost: 1,
-        role: Roles::Attacker,
+        role: RolesU8::Attacker,
         is_captain: true
     };
     set_contract_address(executor);
@@ -240,7 +240,7 @@ fn test_place_card_right_player() {
         defense: 2,
         current_defense: 2,
         cost: 1,
-        role: Roles::Attacker,
+        role: RolesU8::Attacker,
         is_captain: true
     };
     set_contract_address(executor);

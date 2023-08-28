@@ -23,5 +23,5 @@ struct CardPlaced {
     game_id: felt252,
     player: ContractAddress,
     card_id: u256,
-    position: Roles,
+    position: u8,
 }
